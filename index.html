@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="description" content="FoodieMatch: conecta foodies, comparte eventos, favoritos, ranking, invitaciones y mucho más en Tunja.">
+  <meta name="keywords" content="FoodieMatch, comida, Tunja, social, eventos, matchmaking, favoritos, ranking, admin, invitaciones, notificaciones, accesibilidad, modo oscuro">
+  <meta name="author" content="FoodieMatch Team">
+  <meta property="og:title" content="FoodieMatch Tunja">
+  <meta property="og:description" content="La comunidad foodie más completa de Tunja. ¡Únete hoy!">
+  <meta property="og:image" content="logo-foodiematch.png">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_CO">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline';">
+  <title>FoodieMatch Tunja</title>
+  <link rel="icon" type="image/png" href="logo-foodiematch.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="overlay" class="hidden"></div>
+
+  <!-- Toast notification -->
+  <div id="toast" class="toast"></div>
+
+  <header id="hero">
+    <nav class="navbar" aria-label="Menú principal">
+      <div class="brand">
+        <img src="logo-foodiematch.png" alt="Logo FoodieMatch" class="logo-app" width="48" height="48">
+        <span class="brand-title">FoodieMatch</span>
+      </div>
+      <button class="menu-toggle" aria-label="Abrir menú" aria-expanded="false" tabindex="0">
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+      </button>
+      <ul class="nav-links" role="navigation">
+        <li><a href="#hero" class="active">Inicio</a></li>
+        <li><a href="#platos">Platos</a></li>
+        <li><a href="#eventos">Eventos</a></li>
+        <li><a href="#matchmaking">Matchmaking</a></li>
+        <li><a href="#ranking">Ranking</a></li>
+        <li id="li-usuario" class="d-none"><a href="#perfil" id="usuario-link"></a></li>
+        <li id="li-admin" class="d-none"><a href="#admin" id="admin-link" title="Panel de administración"><span aria-label="admin" role="img">🛡️</span> Admin</a></li>
+        <li id="li-login"><a href="#login" id="abrir-login">Iniciar sesión</a></li>
+        <li>
+          <button id="toggle-theme" class="icon-btn" aria-label="Cambiar tema"><span id="theme-icon" class="emoji">🌙</span></button>
+        </li>
+      </ul>
+    </nav>
+    <section class="hero-content">
+      <img src="logo-foodiematch.png" alt="Logo FoodieMatch" class="logo-hero" width="130" height="130">
+      <h1>¡Conecta, comparte y disfruta en FoodieMatch!</h1>
+      <p>Únete a la comunidad foodie más vibrante de Tunja.<br>Eventos, favoritos, ranking, matchmaking y mucho más…</p>
+      <a href="#registro" class="btn hero-btn">¡Regístrate gratis!</a>
+      <div class="hero-timer">
+        <span>Próxima comida en:</span>
+        <span id="countdown">00:00:00</span>
+      </div>
+      <div class="hero-users">
+        <span id="user-counter">+1200</span> foodies ya están dentro
+      </div>
+    </section>
+  </header>
+
+  <main>
+    <!-- Platos destacados -->
+    <section id="platos" class="platos-section">
+      <h2>Platos Destacados <span class="badge-dia" id="badge-dia">Plato del día</span></h2>
+      <div class="cards-container" id="platos-cards" aria-live="polite">
+        <!-- Platos generados dinámicamente -->
+      </div>
+    </section>
+
+    <!-- Ranking -->
+    <section id="ranking" class="ranking-section">
+      <h2>Ranking</h2>
+      <div class="ranking-blocks">
+        <div>
+          <h3>Foodies más activos</h3>
+          <ol id="ranking-usuarios"></ol>
+        </div>
+        <div>
+          <h3>Platos más votados</h3>
+          <ol id="ranking-platos"></ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Eventos -->
+    <section id="eventos" class="eventos-section">
+      <h2>Próximos Eventos</h2>
+      <ul id="lista-eventos"></ul>
+      <div class="evento-sugerir">
+        <button class="btn" id="btn-sugerir-evento">¿Tienes una idea? Sugiere un evento</button>
+      </div>
+    </section>
+
+    <!-- Matchmaking -->
+    <section id="matchmaking" class="matchmaking-section">
+      <h2>Matchmaking culinario</h2>
+      <div class="matchmaking-descr">
+        <p>¿Buscas compañero/a para el próximo evento? ¡Haz Match con otros foodies de Tunja!</p>
+      </div>
+      <div class="matchmaking-cards" id="matchmaking-cards"></div>
+      <div class="matchmaking-actions" id="matchmaking-actions">
+        <button class="btn" id="btn-like">Me gusta</button>
+        <button class="btn" id="btn-next">Siguiente</button>
+      </div>
+      <div id="match-feedback" class="match-feedback" aria-live="polite"></div>
+    </section>
+
+    <!-- Registro / Perfil -->
+    <section id="registro" class="registro-section">
+      <h2>Únete a FoodieMatch</h2>
+      <form id="form-registro" novalidate autocomplete="off">
+        <label>Nombre
+          <input type="text" name="nombre" required minlength="2" maxlength="40" pattern="^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$" autocomplete="name">
+          <span class="error"></span>
+        </label>
+        <label>Email
+          <input type="email" name="email" required autocomplete="email">
+          <span class="error"></span>
+        </label>
+        <label>Contraseña
+          <input type="password" name="pass" required minlength="6" maxlength="32" autocomplete="new-password">
+          <span class="error"></span>
+        </label>
+        <button type="submit" class="btn">Registrarse</button>
+        <div class="user-count">
+          <span id="user-counter-form">+1200</span> usuarios registrados
+        </div>
+      </form>
+      <div class="ya-registrado">
+        ¿Ya tienes cuenta? <a href="#login" id="abrir-login-link">Inicia sesión aquí</a>
+      </div>
+    </section>
+
+    <section id="perfil" class="perfil-section d-none">
+      <h2>¡Hola, <span id="perfil-nombre"></span>!</h2>
+      <div class="perfil-info">
+        <p><strong>Email:</strong> <span id="perfil-email"></span></p>
+        <p><strong>Último acceso:</strong> <span id="perfil-ultimo-acceso"></span></p>
+        <button class="btn btn-logout" id="btn-logout">Cerrar sesión</button>
+      </div>
+      <div class="perfil-invitacion">
+        <p>Invita a tus amigos con este código:</p>
+        <input type="text" id="codigo-invitacion" readonly>
+        <button class="btn btn-small" id="btn-copiar-invitacion">Copiar</button>
+      </div>
+      <div class="perfil-favoritos">
+        <h3>Mis platos favoritos</h3>
+        <ul id="favoritos-lista"></ul>
+      </div>
+      <div class="perfil-mis-eventos">
+        <h3>Mis eventos</h3>
+        <ul id="perfil-eventos"></ul>
+      </div>
+    </section>
+
+    <!-- Admin Panel -->
+    <section id="admin" class="admin-section d-none">
+      <h2>Panel de administración</h2>
+      <div class="admin-block">
+        <h3>Usuarios registrados</h3>
+        <table id="tabla-usuarios">
+          <thead>
+            <tr>
+              <th>Nombre</th><th>Email</th><th>Último acceso</th><th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Usuarios aquí -->
+          </tbody>
+        </table>
+      </div>
+      <div class="admin-block">
+        <h3>Eventos registrados</h3>
+        <ul id="admin-eventos"></ul>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal de Login -->
+  <div id="modal-login" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="login-title">
+    <div class="modal-content">
+      <span class="close" id="close-login" tabindex="0" aria-label="Cerrar">&times;</span>
+      <h2 id="login-title">Iniciar sesión</h2>
+      <form id="form-login" novalidate autocomplete="off">
+        <label>Email
+          <input type="email" name="login-email" required autocomplete="email">
+          <span class="error"></span>
+        </label>
+        <label>Contraseña
+          <input type="password" name="login-pass" required minlength="6" autocomplete="current-password">
+          <span class="error"></span>
+        </label>
+        <button type="submit" class="btn">Entrar</button>
+      </form>
+      <div class="no-cuenta">
+        ¿No tienes cuenta? <a href="#registro" class="to-registro">Regístrate aquí</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal sugerir evento -->
+  <div id="modal-evento" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="evento-title">
+    <div class="modal-content">
+      <span class="close" id="close-evento" tabindex="0" aria-label="Cerrar">&times;</span>
+      <h2 id="evento-title">Sugerir evento nuevo</h2>
+      <form id="form-evento" novalidate autocomplete="off">
+        <label>Nombre del evento
+          <input type="text" name="evento-nombre" required minlength="4" maxlength="60">
+          <span class="error"></span>
+        </label>
+        <label>Lugar
+          <input type="text" name="evento-lugar" required minlength="2" maxlength="60">
+          <span class="error"></span>
+        </label>
+        <label>Fecha y hora
+          <input type="datetime-local" name="evento-datetime" required>
+          <span class="error"></span>
+        </label>
+        <button type="submit" class="btn">Sugerir evento</button>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <img src="logo-foodiematch.png" alt="Logo FoodieMatch" class="footer-logo" width="36" height="36">
+      <span>FoodieMatch Tunja &copy; 2025</span>
+      <nav>
+        <a href="#platos">Platos</a>
+        <a href="#eventos">Eventos</a>
+        <a href="#matchmaking">Matchmaking</a>
+        <a href="#ranking">Ranking</a>
+        <a href="#registro">Únete</a>
+      </nav>
+      <div class="footer-social">
+        <a href="https://twitter.com/" target="_blank" aria-label="Twitter"><span class="emoji">🐦</span></a>
+        <a href="https://instagram.com/" target="_blank" aria-label="Instagram"><span class="emoji">📸</span></a>
+      </div>
+      <div class="footer-about">
+        <small>Comunidad creada por foodies para foodies. <a href="#acerca">Más info</a></small>
+      </div>
+    </div>
+    <small>Sitio optimizado para Chrome 90+, Safari 14+. Todos los derechos reservados.</small>
+  </footer>
+  <script src="main.js"></script>
+</body>
+</html>
