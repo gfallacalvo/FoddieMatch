@@ -33,16 +33,16 @@ setTheme(localStorage.getItem('foodiematch-theme') || (prefersDark ? "dark" : "l
 
 // ------- Datos de demo ---------
 const platosData = [
-  {nombre:"Ajiaco Santafereño",descr:"Tradición en cada cucharada, perfecto para días fríos.",img:"images/ajiaco.jpg"},
-  {nombre:"Changua Boyacense",descr:"Desayuno reconfortante típico de Boyacá.",img:"images/changua.jpg"},
-  {nombre:"Tamal Tunjeño",descr:"Relleno de sabor, ¡ideal para compartir!",img:"images/tamal.jpg"},
-  {nombre:"Mute Boyacense",descr:"Un guiso abundante para los paladares más exigentes.",img:"images/mute.jpg"},
-  {nombre:"Arepa de Choclo",descr:"Dulzura y suavidad en cada bocado.",img:"images/arepa-choclo.jpg"}
+  {nombre:"Ajiaco Santafereño",descr:"Tradición en cada cucharada, perfecto para días fríos.",img:"ajiaco.jpg"},
+  {nombre:"Changua Boyacense",descr:"Desayuno reconfortante típico de Boyacá.",img:"changua.jpg"},
+  {nombre:"Tamal Tunjeño",descr:"Relleno de sabor, ¡ideal para compartir!",img:"tamal.jpg"},
+  {nombre:"Mute Boyacense",descr:"Un guiso abundante para los paladares más exigentes.",img:"silencio.jpg"},
+  {nombre:"Arepa de Choclo",descr:"Dulzura y suavidad en cada bocado.",img:"arepa-choclo.jpg"}
 ];
 const demoUsers = [
-  {nombre:"Sofía",img:"images/user1.jpg",bio:"Fanática de la cocina fusión y el brunch dominguero."},
-  {nombre:"Carlos",img:"images/user2.jpg",bio:"Amo los sabores tradicionales y los postres."},
-  {nombre:"María",img:"images/user3.jpg",bio:"Vegana creativa. Siempre busco nuevos restaurantes."},
+  {nombre:"Sofía",img:"user2.png",bio:"Fanática de la cocina fusión y el brunch dominguero."},
+  {nombre:"Carlos",img:"user1.png",bio:"Amo los sabores tradicionales y los postres."},
+  {nombre:"María",img:"user3.png",bio:"Vegana creativa. Siempre busco nuevos restaurantes."},
   {nombre:"Juan",img:"images/user4.jpg",bio:"Chef aficionado. ¿Vamos por un buen ajiaco?"},
   {nombre:"Lucía",img:"images/user5.jpg",bio:"Me encanta descubrir cafés secretos."}
 ];
