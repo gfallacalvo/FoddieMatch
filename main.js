@@ -33,7 +33,7 @@ setTheme(localStorage.getItem('foodiematch-theme') || (prefersDark ? "dark" : "l
 
 // ------- Datos de demo ---------
 const platosData = [
-  {nombre:"Ajiaco Santafereño",descr:"Tradición en cada cucharada, perfecto para días fríos.",img = src="img/ajiaco.jpg"},
+  {nombre:"Ajiaco Santafereño",descr:"Tradición en cada cucharada, perfecto para días fríos.",img src="img/ajiaco.jpg"},
   {nombre:"Changua Boyacense",descr:"Desayuno reconfortante típico de Boyacá.",img:"img/changua.jpg"},
   {nombre:"Tamal Tunjeño",descr:"Relleno de sabor, ¡ideal para compartir!",img:"img/tamal.jpg"},
   {nombre:"Mute Boyacense",descr:"Un guiso abundante para los paladares más exigentes.",img:"img/mute.jpg"},
